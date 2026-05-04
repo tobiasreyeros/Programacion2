@@ -5,7 +5,7 @@ h=0
 
 def area_circulo(r):
     if(r<0):
-        print("El radio no puede ser negativo")
+        print("El radio del circulo no puede ser negativo")
         return 
     area_circulo=math.pi*(r**2)
     return area_circulo
@@ -28,7 +28,7 @@ h=int(input())
 resultado_volumen=0
 resultado_volumen=volumen_cilindro(r, h)
 
-print("El volumen del cilindro es: ",resultado_volumen)
-print("El área del circulo es: ",resultado)
+print("El volumen del cilindro es: ",int(resultado_volumen))
+print("El área del circulo es: ",int(resultado))
 
 
