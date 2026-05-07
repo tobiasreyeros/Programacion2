@@ -15,10 +15,11 @@ def procesar_inventario():
         precio_unitario = precios[i]
 
         print(f"Analizando pedido de: {nombre}")
-
-        if stock_actual < cantidad_pedida:
+#no procesa los pedidos que si se pueden cumplir como el del mouse 
+        if stock_actual >= cantidad_pedida:
             total_operacion = cantidad_pedida * precio_unitario
             ventas_totales += total_operacion
+            #al restar una cantidad mayor a la que tiene el stock de teclado seria -4
             stock[i] = stock_actual - cantidad_pedida
             print(f"Pedido procesado. Stock restante: {stock[i]}")
         else:
