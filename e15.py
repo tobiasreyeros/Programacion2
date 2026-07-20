@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from PIL import Image, ImageOps
 
-img = Image.open("e16_imagen")
+img = Image.open("zenith.jpg")
 matriz = np.array(img_g)
 aux = 0
 
