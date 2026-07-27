@@ -2,69 +2,63 @@ import tkinter as tk
 import random
 
 secreto=random.randint(1,20)
-hp = 6
-app = tk.Tk()
-entrada = tk.StringVar(app)
-hpSV = tk.StringVar(app).set("Vidas: " + str(hp))
+app=tk.Tk()
+vidas=6
+entrada=tk.StringVar(app)
+VidasSV=tk.StringVar(app)
+resultado=tk.StringVar(app)
 
 def intentar():
-    global hp
-    print("Entrada: " + entrada.get())
-    num=int(entrada.get())
-    print(num + 1)
-    hpSV.set("Vidas: " + str(hp))
-    hp = hp - 1
-    
-app.geometry("400x500")
-app.configure(background="black")
-tk.Wm.wm_title(app, "Adivina el numero")
+    global vidas
+    print("Entrada: "+ entrada.get())
+    numero_ingresado=int(entrada.get())
+    if(numero_ingresado<secreto):
+        resultado.set("El número ingresado es muy bajo")
+    if(numero_ingresado>secreto):
+        resultado.set("El número ingresado es muy alto")
+    if(numero_ingresado==secreto):
+        resultado.set("Felicidades, ganaste el juego")
+    VidasSV.set('Vidas: '+str(vidas))
+    vidas=vidas-1
+    if(vidas<=0):
+        resultado.set("Perdiste, te quedaste sin vidas")
+
+app.geometry("500x500")
+app.configure(background='Grey')
+tk.Wm.wm_title(app, "Adivina el número")
 
 tk.Button(
     app,
-    text="Adivina",
-    bg="yellow",
-    fg="blue",
-    command=lambda: print("Hola que tal "+ entrada.get()),
-    font=("Arial",14)).pack(
-        #fill=tk.BOTH,
-        #expand=True,
-        )
-tk.Label(
-    app,
-    text="Adivina el numero entre 1 y 20",
-    #font=("Arial",18)
-    bg="black",
-    fg="white",
-    justify="center"
-).pack(
-    #fill=tk.BOTH,
-    #expand=True,
-    )
+    text='Adivina',
+    font=('Arial', 14),
+    bg='White',
+    command=intentar
+).pack(expand=True)
+
 
 tk.Label(
     app,
-    text="Vidas:",
-    #font=("Arial",18)
-    bg="black",
-    fg="white",
-    justify="center"
-).pack(
-#     fill=tk.BOTH,
-#     expand=True,
-    )
+    textvariable=VidasSV,
+    font=('Arial', 18),
+    bg='Grey',
+    justify='center'
+).pack(expand=True)
 
 tk.Entry(
-    fg="White",
-    bg="Black",
-    justify="center",
-    textvaariable=entrada
-).pack(
-    fill=tk.BOTH,
-    expand=True,
-)
-    
-    
+    app,
+    bg='White',
+    fg='Black',
+    font=('Arial',14),
+    justify='center',
+    textvariable=entrada
+).pack(expand=True)
 
+
+tk.Label(
+    app,
+    textvariable=resultado,
+    font=('Arial',17),
+    bg='Green'
+).pack(expand=True)
 
 app.mainloop()
-
