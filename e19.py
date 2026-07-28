@@ -11,6 +11,9 @@ resultado=tk.StringVar(app)
 def intentar():
     global vidas
     print("Entrada: "+ entrada.get())
+    if(vidas<0):
+        resultado.set("Te quedaste sin vidas,Reinicia la aplicacion para seguir jugando")
+        return
     numero_ingresado=int(entrada.get())
     if(numero_ingresado<secreto):
         resultado.set("El número ingresado es muy bajo")
@@ -20,10 +23,8 @@ def intentar():
         resultado.set("Felicidades, ganaste el juego")
     VidasSV.set('Vidas: '+str(vidas))
     vidas=vidas-1
-    if(vidas<=0):
-        resultado.set("Perdiste, te quedaste sin vidas")
 
-app.geometry("500x500")
+app.geometry("800x500")
 app.configure(background='Grey')
 tk.Wm.wm_title(app, "Adivina el número")
 
