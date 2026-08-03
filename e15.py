@@ -2,20 +2,23 @@ import numpy as np
 import matplotlib.pyplot as plt
 from PIL import Image, ImageOps
 
-img = Image.open("zenith.jpg")
-matriz = np.array(img_g)
-aux = 0
+imagen_original = Image.open('zenith.jpg')
 
-fyc = matriz.shape
-row = fyc[0]
-col = fyc[1]
-mit = col//2
+imagen_gris_pil = imagen_original.convert('L')
 
-for i in range (row):
-    for j in range(mit):
-        aux = matriz [i][j]
-        ind_con = -(j + 1)
-        matriz[i][j] = matriz[i][ind_con]
-        matriz[i][ind_con] = aux
-        
+array_gris = np.array(imagen_gris_pil)
+
+filas=len(array_gris)
+columnas=len(array_gris[0])
+for i in range(filas):
+    for j in range(columnas // 2):
+        aux = array_gris[i][j]
+
+        indice_derecho = columnas - 1 - j
+
+        array_gris[i][j] = array_gris[i][indice_derecho]
+        array_gris[i][indice_derecho] = aux
+imagen_final = Image.fromarray(array_gris)
+
+plt.imshow(imagen_final, cmap='gray')
 plt.show()
