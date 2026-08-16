@@ -31,11 +31,9 @@ plt.figure(figsize=(10, 5))
 plt.subplot(1, 2, 1)
 plt.imshow(imagen, cmap="gray")
 plt.title("Original")
-plt.axis("off")
 
 plt.subplot(1, 2, 2)
 plt.imshow(filtrada, cmap="gray")
-plt.title("Filtrada (Desenfoque Gaussiano)")
-plt.axis("off")
+plt.title("Filtrada")
 
 plt.show()
