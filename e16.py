@@ -1,46 +1,37 @@
-import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
 import numpy as np
+from PIL import Image
+import matplotlib.pyplot as plt
 
-def convertir_a_grises(imagen_rgb):
-    """
-    Convierte una imagen RGB a escala de grises usando la fórmula:
-    Grises = R*0.2989 + G*0.5870 + B*0.1140
-    """
-    # Extraemos los canales (R, G, B)
-    # imagen_rgb[:,:,0] es la matriz Roja, el 1 es Verde y el 2 es Azul
-    r = imagen_rgb[:,:,0]
-    g = imagen_rgb[:,:,1]
-    b = imagen_rgb[:,:,2]
+def convertir_a_grises(ruta_imagen):
+    #cargan la imagen en disco y la convierten
+    #en una matriz tridimensional: alto, ancho, 3 canales(RGB)
+    imagen_color = Image.open(ruta_imagen)
+    array_color = np.array(imagen_color)
+    alto = array_color.shape[0]
+    ancho = array_color.shape[1]
+    #crea una matriz vacia con las dimensiones
+    #de la imagen (alto, ancho) de una sola
+    #capa donde se guarda la intensidad de gris de cada pixel
+    array_grises = np.zeros((alto, ancho))
+                             
+    #extrae los valores RGB del pixel en la posicion [i, j]
+    for i in range(alto):
+        for j in range(ancho):
+            R = array_color[i, j, 0] 
+            G = array_color[i, j, 1] 
+            B = array_color[i, j, 2]
+            #no se hace un promedio simple porque el
+            #ojo humano no percibe todos los colores con el mismo brillo
+            gris = (R * 0.2989) + (G * 0.5870) + (B * 0.1140)
+            array_grises[i, j] = gris
     
-    # Aplicamos la fórmula proporcionada
-    imagen_gris = r * 0.2989 + g * 0.5870 + b * 0.1140
-    
-    return imagen_gris
-
-# 1. Importar la imagen a color
-# Asegúrate de tener una imagen llamada 'imagen.jpg' en la misma carpeta
-try:
-    img_color = mpimg.imread('e16_imagen.jpg')
-    
-    # 2. Convertir la imagen usando nuestra función
-    img_gris = convertir_a_grises(img_color)
-
-    # 3. Mostrar los resultados
-    fig, axes = plt.subplots(1, 2, figsize=(12, 6))
-
-    # Mostrar imagen original
-    axes[0].imshow(img_color)
-    axes[0].set_title("e16_imagen.jpg")
-    axes[0].axis('off')
-
-    # Mostrar imagen en grises
-    # Usamos cmap='gray' para que Matplotlib sepa que debe interpretarlo como grises
-    axes[1].imshow(img_gris, cmap='gray')
-    axes[1].set_title("Imagen en Escala de Grises")
-    axes[1].axis('off')
-
+    #crea un panel con 2 espacios para imagenes lado a lado.
+    fig, ejes = plt.subplots(1, 2, figsize=(10, 5))
+        
+    ejes[0].imshow(array_color)
+    #interpreta la matriz de un solo canal como escala de grises (negro = 0, blanco = 255).
+    ejes[1].imshow(array_grises, cmap='gray')
+    plt.tight_layout()
     plt.show()
-
-except FileNotFoundError:
-    print("Error: No se encontró el archivo 'imagen.jpg'. Por favor, verifica el nombre.")
+    
+convertir_a_grises("zenith.jpg")
