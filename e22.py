@@ -3,13 +3,12 @@ import tkinter as tk
 app = tk.Tk()
 app.geometry("500x550")
 app.configure(background="Grey")
-tk.Wm.wm_title(app, "Cifrado y Descifrado Vigenère (con Ñ)")
+tk.Wm.wm_title(app, "Cifrado Vigenere")
 
 mensaje_sv = tk.StringVar(app)
 clave_sv = tk.StringVar(app)
 resultado_sv = tk.StringVar(app)
 
-# Alfabeto de 27 letras incluyendo la Ñ
 ALFABETO = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ"
 
 def cifrado_vigenere(mensaje, clave, cifrar=True):
@@ -59,7 +58,6 @@ def procesar_descifrado():
     clave = clave_sv.get()
     resultado_sv.set(cifrado_vigenere(texto, clave, cifrar=False))
 
-# Encabezado e Entradas de Texto
 tk.Label(
     app,
     text="Ingrese el mensaje:",
@@ -79,7 +77,7 @@ tk.Entry(
 
 tk.Label(
     app,
-    text="Ingrese la palabra clave:",
+    text="Ingrese la clave:",
     font=("Arial", 18),
     bg="Grey",
     fg="White",
