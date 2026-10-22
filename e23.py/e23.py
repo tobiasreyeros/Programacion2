@@ -1,13 +1,19 @@
+import os
+import random
 import tkinter as tk
 from tkinter import messagebox
-import random
+from PIL import Image, ImageTk
 import pygame
+
+# Establecer la carpeta de trabajo donde se ubica el script
+directorio_script = os.path.dirname(os.path.abspath(__file__))
+os.chdir(directorio_script)
 
 pygame.mixer.init()
 
 try:
     pygame.mixer.music.load("musica_fondo.mp3")
-    pygame.mixer.music.play(-1)# -1 para reproducción en bucle
+    pygame.mixer.music.play(-1)  # -1 para reproducción en bucle
     
     sonido_victoria = pygame.mixer.Sound("victoria.wav")
     sonido_derrota = pygame.mixer.Sound("derrota.wav")
@@ -18,6 +24,7 @@ except Exception as e:
 root = tk.Tk()
 root.title("Piedra, Papel o Tijera")
 root.geometry("450x550")
+root.resizable(False, False)
 root.config(bg="#2C3E50")
 
 puntos_jugador = 0
@@ -66,12 +73,19 @@ def reiniciar_juego():
     lbl_eleccion_maquina.config(text="Máquina eligió: -")
     lbl_resultado.config(text="¡Elige tu jugada!", fg="#ECF0F1")
 
+# Cargar y redimensionar imágenes de forma uniforme
+TAM_BOTON = (100, 100)
 try:
-    img_piedra = tk.PhotoImage(file="piedra.png")
-    img_papel = tk.PhotoImage(file="papel.png")
-    img_tijera = tk.PhotoImage(file="tijera.png")
+    img_p_raw = Image.open("piedra.png").resize(TAM_BOTON, Image.Resampling.LANCZOS)
+    img_pa_raw = Image.open("papel.png").resize(TAM_BOTON, Image.Resampling.LANCZOS)
+    img_t_raw = Image.open("tijera.png").resize(TAM_BOTON, Image.Resampling.LANCZOS)
+
+    img_piedra = ImageTk.PhotoImage(img_p_raw)
+    img_papel = ImageTk.PhotoImage(img_pa_raw)
+    img_tijera = ImageTk.PhotoImage(img_t_raw)
     usar_imagenes = True
-except Exception:
+except Exception as e:
+    print(f"No se pudieron cargar las imágenes con PIL: {e}")
     usar_imagenes = False
 
 
@@ -114,9 +128,9 @@ frame_botones = tk.Frame(root, bg="#2C3E50")
 frame_botones.pack(pady=20)
 
 if usar_imagenes:
-    btn_piedra = tk.Button(frame_botones, image=img_piedra, command=lambda: jugar("Piedra"), bg="#34495E", activebackground="#1ABC9C")
-    btn_papel = tk.Button(frame_botones, image=img_papel, command=lambda: jugar("Papel"), bg="#34495E", activebackground="#1ABC9C")
-    btn_tijera = tk.Button(frame_botones, image=img_tijera, command=lambda: jugar("Tijera"), bg="#34495E", activebackground="#1ABC9C")
+    btn_piedra = tk.Button(frame_botones, image=img_piedra, command=lambda: jugar("Piedra"), bg="#34495E", activebackground="#1ABC9C", bd=2, relief="groove")
+    btn_papel = tk.Button(frame_botones, image=img_papel, command=lambda: jugar("Papel"), bg="#34495E", activebackground="#1ABC9C", bd=2, relief="groove")
+    btn_tijera = tk.Button(frame_botones, image=img_tijera, command=lambda: jugar("Tijera"), bg="#34495E", activebackground="#1ABC9C", bd=2, relief="groove")
 else:
     btn_piedra = tk.Button(frame_botones, text="🪨\nPiedra", font=("Helvetica", 12, "bold"), width=8, height=3, command=lambda: jugar("Piedra"), bg="#34495E", fg="white")
     btn_papel = tk.Button(frame_botones, text="📄\nPapel", font=("Helvetica", 12, "bold"), width=8, height=3, command=lambda: jugar("Papel"), bg="#34495E", fg="white")
