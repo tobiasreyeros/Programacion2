@@ -15,9 +15,9 @@ try:
     pygame.mixer.music.load("musica_fondo.mp3")
     pygame.mixer.music.play(-1)  # -1 para reproducción en bucle
     
-    sonido_victoria = pygame.mixer.Sound("victoria.mp3")
-    sonido_derrota = pygame.mixer.Sound("derrota.mp3")
-    sonido_empate = pygame.mixer.Sound("empate.mp3")
+    sonido_victoria = pygame.mixer.Sound("victoria.wav")
+    sonido_derrota = pygame.mixer.Sound("derrota.wav")
+    sonido_empate = pygame.mixer.Sound("empate.wav")
 except Exception as e:
     print("Nota: No se encontraron algunos archivos de audio. El juego funcionará sin sonido.")
 
