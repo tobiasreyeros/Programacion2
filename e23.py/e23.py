@@ -1,3 +1,4 @@
+import sys
 import os
 import random
 import tkinter as tk
@@ -5,9 +6,12 @@ from tkinter import messagebox
 from PIL import Image, ImageTk
 import pygame
 
-# Establecer la carpeta de trabajo donde se ubica el script
-directorio_script = os.path.dirname(os.path.abspath(__file__))
-os.chdir(directorio_script)
+# Determine base path for resources (compatible with PyInstaller)
+if getattr(sys, 'frozen', False):
+    base_path = sys._MEIPASS
+else:
+    base_path = os.path.abspath(os.path.dirname(__file__))
+os.chdir(base_path)
 
 pygame.mixer.init()
 
@@ -72,6 +76,13 @@ def reiniciar_juego():
     lbl_eleccion_jugador.config(text="Tú elegiste: -")
     lbl_eleccion_maquina.config(text="Máquina eligió: -")
     lbl_resultado.config(text="¡Elige tu jugada!", fg="#ECF0F1")
+
+# Detener música y cerrar pygame al cerrar la ventana
+def cerrar_juego():
+    pygame.mixer.music.stop()
+    pygame.mixer.quit()
+    pygame.quit()
+    root.destroy()
 
 # Cargar y redimensionar imágenes de forma uniforme
 TAM_BOTON = (100, 100)
@@ -152,5 +163,8 @@ btn_reiniciar = tk.Button(
     pady=5
 )
 btn_reiniciar.pack(pady=20)
+
+# Vincular el cierre de ventana con la función de limpieza
+root.protocol("WM_DELETE_WINDOW", cerrar_juego)
 
 root.mainloop()
